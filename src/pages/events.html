@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upcoming Events | KJ's Camping</title>
+
+  <!-- FullCalendar core CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
+  <!-- Custom events styles -->
+  <link rel="stylesheet" href="../styles/events.css">
+</head>
+<body>
+  <div id="header-placeholder"></div>
+  <main>
+    <h1 class="sr-only" data-key="upcomingEvents">Upcoming Events</h1>
+    <div id="calendar"></div>
+  </main>
+
+  <div id="footer-placeholder"></div>
+      <!-- FullCalendar global build -->
+      <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+      <!-- Page-specific logic -->
+      <script src="../scripts/events.js"></script>
+  <script>
+    async function include(file, selector) {
+      try {
+        const res = await fetch(file);
+        const html = await res.text();
+        document.querySelector(selector).innerHTML = html;
+      } catch (err) {
+        console.error('Include failed:', file, err);
+      }
+    }
+    include('/pages/components/header.html', '#header-placeholder');
+    include('/pages/components/footer.html', '#footer-placeholder');
+  </script>
+</body>
+</html>

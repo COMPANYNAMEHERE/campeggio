@@ -1,0 +1,164 @@
+/* =======================================================
+   Header‑only stylesheet
+   (extracted from main.css so the header component can
+   bring in its own styles without requiring the whole
+   site bundle)
+   ======================================================= */
+
+:root {
+  /* Palette */
+  --burnt: #8B3A25;
+  --gold:  #F2B134;
+  --dark:  #2F1A13;
+  --light: #FAF6F3;
+
+  /* Saw‑tooth/triangle variables (kept for future use) */
+  --triangle-width: 128px;
+  --saw-height:     48px;
+}
+
+/* ---------- Site‑wide reset helpful for the header embed ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* -------------------------------------------------------
+   Header styles
+----------------------------------------------------------*/
+
+header {
+  background: var(--burnt);
+
+  /* Subtle pine‑tree pattern for camping vibe */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpolygon points='30 0 22 18 26 18 18 34 22 34 14 50 30 40 46 50 38 34 42 34 34 18 38 18' fill='%23A84F30' opacity='0.15'/%3E%3C/svg%3E");
+  background-size: 60px 60px;
+  background-repeat: repeat;
+
+  /* Deep drop‑shadow for floating effect */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.55);
+
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  overflow: hidden;
+}
+
+header .container {
+  width: 90%;
+  max-width: 1100px;
+
+  display: flex;
+  align-items: center;
+  gap: 3rem;   /* space between logo and nav */
+  justify-content: flex-start;
+
+  /* Slightly tighter vertical padding for a shorter header */
+  padding: .2rem 0;
+}
+
+.logo {
+  width: 100px;
+  filter: drop-shadow(2px 2px 1px rgba(0, 0, 0, 0.4));
+  transition: transform 0.4s ease;
+}
+
+/* Fun wobble‑and‑scale when hovering the logo */
+.logo:hover {
+  transform: rotate(-5deg) scale(1.1);
+}
+
+/* ---------- Navigation ---------- */
+.nav-toggle {
+  display: none;               /* shown only on narrow screens */
+  background: none;
+  border: none;
+  font-size: 1.75rem;
+  color: var(--light);
+  cursor: pointer;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 3rem;   /* more space between nav items */
+}
+
+nav a {
+  font-weight: 600;
+  color: var(--light);
+  text-decoration: none;
+  display: inline-block;           /* enables transform */
+  transition: opacity .2s, transform .2s, text-shadow .3s ease;
+  transform-origin: center center;   /* ensure scaling is from center */
+}
+
+nav a:hover {
+  color: #cccccc;          /* turn grayer on hover */
+  opacity: .85;
+  transform: scale(1.125);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.85);
+}
+
+/* ---------- Responsive nav (hamburger) ---------- */
+@media (max-width: 600px) {
+  nav ul {
+    flex-direction: column;
+    background: var(--burnt);
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 200px;
+    padding: 1rem;
+    display: none;   /* toggled open via JS */
+  }
+
+  nav ul.open {
+    display: flex;
+  }
+
+  .nav-toggle {
+    display: block;
+  }
+}
+
+/* ---------- Language selector (kept with header) ---------- */
+.lang-switcher {
+  position: relative;
+  display: inline-block;
+  margin-left: auto;   /* push language selector to far right */
+}
+
+.lang-switcher label {
+  margin-right: 0.5rem;
+  font-weight: 600;
+  color: var(--light);
+}
+
+.lang-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  padding: 0.5rem 2.5rem 0.5rem 1rem;
+  border: none;
+  border-radius: 20px;
+  font-size: 1rem;
+
+  background-color: #dddddd;
+  color: var(--dark);
+  cursor: pointer;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%232F1A13' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 10px 6px;
+}
+
+.lang-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(242, 177, 52, 0.5);
+}

@@ -1,0 +1,5 @@
+- mobile version
+- animation at first loadin
+- security check
+- logo
+- 
