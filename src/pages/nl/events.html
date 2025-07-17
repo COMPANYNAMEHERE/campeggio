@@ -8,15 +8,18 @@
   <link rel="stylesheet" href="../styles/events.css">
 </head>
 <body>
+  <!-- Dynamische header -->
   <div id="header-placeholder"></div>
   <main>
     <h1 data-key="upcomingEvents">Komende Evenementen</h1>
     <div id="calendar"></div>
   </main>
+  <!-- Dynamische footer -->
   <div id="footer-placeholder"></div>
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
   <script type="module" src="/scripts/events.js"></script>
   <script>
+    // Eerst header en footer laden, dan header.js activeren
     Promise.all([
       fetch('../components/header.html').then(r => r.text()).then(h => {
         document.querySelector('#header-placeholder').innerHTML = h;
@@ -28,7 +31,7 @@
       const year = document.getElementById('year');
       if (year) year.textContent = new Date().getFullYear();
       const headerScript = document.createElement('script');
-  headerScript.type = 'module';
+      headerScript.type = 'module';
       headerScript.src = '/scripts/header.js';
       document.body.appendChild(headerScript);
     });

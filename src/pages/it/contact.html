@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
+  <!-- Header caricato via fetch -->
   <div id="site-header"></div>
   <main class="container contact-page">
     <h1>Contattaci</h1>
@@ -49,8 +50,10 @@
       subjectHF.value = category.value ? `[${category.value}] KJ's Camping Contact` : "KJ's Camping Contact";
     });
   </script>
+  <!-- Footer caricato via fetch -->
   <div id="site-footer"></div>
   <script>
+    // Inserisci header e footer poi avvia header.js
     Promise.all([
       fetch('../components/header.html').then(r => r.text()).then(h => {
         document.getElementById('site-header').innerHTML = h;
@@ -62,7 +65,7 @@
       const year = document.getElementById('year');
       if (year) year.textContent = new Date().getFullYear();
       const headerScript = document.createElement('script');
-  headerScript.type = 'module';
+      headerScript.type = 'module';
       headerScript.src = '/scripts/header.js';
       document.body.appendChild(headerScript);
     });

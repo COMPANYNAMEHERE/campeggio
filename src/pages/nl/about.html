@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
+  <!-- Header wordt hier ingevoegd -->
   <div id="header-placeholder"></div>
   <main class="about">
     <div class="container">
@@ -17,8 +18,10 @@
       <a href="index.html" class="btn">← Terug naar Home</a>
     </div>
   </main>
+  <!-- Footer wordt hier ingevoegd -->
   <div id="footer-placeholder"></div>
   <script>
+    // Haal header en footer op en laad header.js
     Promise.all([
       fetch('../components/header.html').then(r => r.text()).then(h => {
         document.getElementById('header-placeholder').innerHTML = h;
@@ -30,7 +33,7 @@
       const yearSpan = document.getElementById('year');
       if (yearSpan) yearSpan.textContent = new Date().getFullYear();
       const headerScript = document.createElement('script');
-  headerScript.type = 'module';
+      headerScript.type = 'module';
       headerScript.src = '/scripts/header.js';
       document.body.appendChild(headerScript);
     });
