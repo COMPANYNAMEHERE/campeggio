@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi siamo | KJ's Campfire</title>
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+  <div id="header-placeholder"></div>
+  <main class="about">
+    <div class="container">
+      <h1>Chi siamo - KJ's Campfire</h1>
+      <p>KJ's Campfire è un piccolo campeggio a conduzione familiare sulla soleggiata costa meridionale della Sicilia. Siamo partiti con un'idea semplice: condividere la magia dei falò, dei cieli aperti e dell'ospitalità siciliana con i viaggiatori.</p>
+      <p>Che tu arrivi in moto, camper o con lo zaino in spalla, troverai piazzole appartate tra gli ulivi, jam intorno al fuoco ogni sera e il profumo dei fiori d'arancio trasportato dalla brezza.</p>
+      <p>Fermati una notte o resta per tutta la stagione: in ogni caso te ne andrai con sabbia nelle scarpe e storie da raccontare.</p>
+      <a href="index.html" class="btn">← Torna alla Home</a>
+    </div>
+  </main>
+  <div id="footer-placeholder"></div>
+  <script>
+    Promise.all([
+      fetch('../pages/components/header.html').then(r => r.text()).then(h => {
+        document.getElementById('header-placeholder').innerHTML = h;
+      }),
+      fetch('../pages/components/footer.html').then(r => r.text()).then(h => {
+        document.getElementById('footer-placeholder').innerHTML = h;
+      })
+    ]).then(() => {
+      const yearSpan = document.getElementById('year');
+      if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+      const headerScript = document.createElement('script');
+  headerScript.type = 'module';
+      headerScript.src = '/scripts/header.js';
+      document.body.appendChild(headerScript);
+    });
+  </script>
+</body>
+</html>

@@ -2,77 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KJ's Campfire • Camping in Sicilia</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="styles/main.css">
+  <title>KJ's Campfire</title>
+  <script>
+    const browser = (navigator.language || 'en').slice(0,2).toLowerCase();
+    const lang = ['en','it','nl'].includes(browser) ? browser : 'en';
+    window.location.replace('/' + lang + '/');
+  </script>
 </head>
 <body>
-  <div id="header-placeholder"></div>
-  <section class="hero">
-    <div class="container">
-      <div class="lang lang-en">
-        <h1>Live the Campfire Life in Sicilia</h1>
-        <p>Escape to the southern sun. Rustic pitches, blazing nights, and the freedom of the open road— all under Sicily's sparkling sky.</p>
-        <a href="pages/about.html" class="btn">Learn More</a>
-      </div>
-      <div class="lang lang-nl" style="display:none">
-        <h1>Leef de Kampvuur Leven in Sicilië</h1>
-        <p>Ontsnap naar de zuidelijke zon. Rustieke plekken, knetterende nachten en de vrijheid van de open weg—all onder de fonkelende hemel van Sicilië.</p>
-        <a href="pages/about.html" class="btn">Meer Info</a>
-      </div>
-      <div class="lang lang-it" style="display:none">
-        <h1>Vivi la Vita del Falò in Sicilia</h1>
-        <p>Fuggi al sole del sud. Piazzole rustiche, notti incendiarie e la libertà della strada aperta—tutto sotto il cielo scintillante della Sicilia.</p>
-        <a href="pages/about.html" class="btn">Scopri di più</a>
-      </div>
-    </div>
-  </section>
-  <div id="footer-placeholder"></div>
-  <script>
-    // Helper to toggle the hero text between languages
-    function setLanguage(lang) {
-      const langs = document.querySelectorAll('.lang');
-      langs.forEach(el =>
-        el.style.display = el.classList.contains('lang-' + lang) ? '' : 'none'
-      );
-      localStorage.setItem('siteLang', lang);
-    }
-
-    // Load header and footer fragments, then initialise language switcher & year
-    Promise.all([
-      fetch('./pages/components/header.html')
-        .then(res => res.text())
-        .then(html => {
-          document.getElementById('header-placeholder').innerHTML = html;
-        }),
-      fetch('./pages/components/footer.html')
-        .then(res => res.text())
-        .then(html => {
-          document.getElementById('footer-placeholder').innerHTML = html;
-        })
-    ]).then(() => {
-      // Set up language selector
-      const switcher = document.getElementById('language-select');
-      if (switcher) {
-        const stored = localStorage.getItem('siteLang') || 'en';
-        switcher.value = stored;
-        setLanguage(stored);
-        switcher.addEventListener('change', () => setLanguage(switcher.value));
-      }
-
-      // Update the © year in the footer
-      const yearEl = document.getElementById('year');
-      if (yearEl) {
-        yearEl.textContent = new Date().getFullYear();
-      }
-
-      // Dynamically load the shared header logic once header is injected
-      const headerScript = document.createElement('script');
-      headerScript.src = '/scripts/header.js';
-      document.body.appendChild(headerScript);
-    });
-  </script>
+  <noscript>
+    <a href="/en/">English</a> |
+    <a href="/it/">Italiano</a> |
+    <a href="/nl/">Nederlands</a>
+  </noscript>
 </body>
 </html>

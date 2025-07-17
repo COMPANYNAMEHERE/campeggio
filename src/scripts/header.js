@@ -2,6 +2,7 @@
 (function () {
   const langSelect = document.getElementById('language-select');
   if (!langSelect) return;
+  langSelect.dataset.bound = 'true';
 
   const strings = {
     en: { home: 'Home',  about: 'About',        contact: 'Contact',  event: 'Event' },
@@ -18,12 +19,12 @@
     });
   }
 
-  // Determine language: URL ?lang= overrides, else localStorage, else browser, else 'en'
-  const url = new URL(window.location.href);
-  let lang = url.searchParams.get('lang')
-           || localStorage.getItem('site-lang')
-           || (navigator.language || 'en').slice(0, 2)
-           || 'en';
+  // Determine language from the URL path (/en/, /it/, /nl/) or stored preference
+  const pathMatch = window.location.pathname.match(/^\/(en|nl|it)(?=\/|$)/);
+  let lang = pathMatch && pathMatch[1];
+  lang = lang || localStorage.getItem('site-lang')
+                || (navigator.language || 'en').slice(0, 2)
+                || 'en';
   if (!strings[lang]) lang = 'en';
 
   // Set selector, apply translations, and update nav links
@@ -31,16 +32,21 @@
   translateNav(lang);
 
   document.querySelectorAll('nav.main-nav a').forEach(link => {
-    const linkUrl = new URL(link.getAttribute('href'), window.location.origin);
-    linkUrl.searchParams.set('lang', lang);
-    link.setAttribute('href', linkUrl.pathname + linkUrl.search);
+    const base = link.getAttribute('href');
+    link.setAttribute('href', `/${lang}${base}`);
   });
 
-  // On change: persist choice and reload current page with ?lang=
+  const logo = document.querySelector('a.logo-link');
+  if (logo) logo.setAttribute('href', `/${lang}/`);
+
+  window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
+
+  // On change: persist choice and navigate to same page under the new language
   langSelect.addEventListener('change', e => {
     const newLang = e.target.value;
     localStorage.setItem('site-lang', newLang);
-    url.searchParams.set('lang', newLang);
-    window.location.href = url.pathname + '?' + url.searchParams.toString();
+    window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: newLang } }));
+    const suffix = window.location.pathname.replace(/^\/(en|nl|it)/, '');
+    window.location.href = `/${newLang}${suffix}`;
   });
 })();

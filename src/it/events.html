@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prossimi Eventi | KJ's Camping</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
+  <link rel="stylesheet" href="../styles/events.css">
+</head>
+<body>
+  <div id="header-placeholder"></div>
+  <main>
+    <h1 data-key="upcomingEvents">Prossimi Eventi</h1>
+    <div id="calendar"></div>
+  </main>
+  <div id="footer-placeholder"></div>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+  <script type="module" src="../scripts/events.js"></script>
+  <script>
+    Promise.all([
+      fetch('../pages/components/header.html').then(r => r.text()).then(h => {
+        document.querySelector('#header-placeholder').innerHTML = h;
+      }),
+      fetch('../pages/components/footer.html').then(r => r.text()).then(h => {
+        document.querySelector('#footer-placeholder').innerHTML = h;
+      })
+    ]).then(() => {
+      const year = document.getElementById('year');
+      if (year) year.textContent = new Date().getFullYear();
+      const headerScript = document.createElement('script');
+  headerScript.type = 'module';
+      headerScript.src = '/scripts/header.js';
+      document.body.appendChild(headerScript);
+    });
+  </script>
+</body>
+</html>
