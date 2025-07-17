@@ -24,4 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
+
+  // Fade in page-specific content
+  const mainContent = document.getElementById('page-content');
+  if (mainContent) {
+    requestAnimationFrame(() => {
+      mainContent.classList.add('fade-in');
+    });
+  }
 });
