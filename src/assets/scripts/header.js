@@ -33,11 +33,12 @@
 
   document.querySelectorAll('nav.main-nav a').forEach(link => {
     const base = link.getAttribute('href');
-    link.setAttribute('href', `/${lang}${base}`);
+    // prefix with /pages so links work after moving files
+    link.setAttribute('href', `/pages/${lang}${base}`);
   });
 
   const logo = document.querySelector('a.logo-link');
-  if (logo) logo.setAttribute('href', `/${lang}/`);
+  if (logo) logo.setAttribute('href', `/pages/${lang}/`);
 
   window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
 
@@ -46,7 +47,7 @@
     const newLang = e.target.value;
     localStorage.setItem('site-lang', newLang);
     window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: newLang } }));
-    const suffix = window.location.pathname.replace(/^\/(en|nl|it)/, '');
-    window.location.href = `/${newLang}${suffix}`;
+    const suffix = window.location.pathname.replace(/^\/pages\/(en|nl|it)/, '');
+    window.location.href = `/pages/${newLang}${suffix}`;
   });
 })();
