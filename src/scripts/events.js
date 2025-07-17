@@ -4,7 +4,7 @@
    Events page – multi‑language support
    Works with the global language selector
    used in header.js (value stored in
-   localStorage key "lang" and a custom
+   localStorage key "site-lang" and a custom
    'languageChanged' event is dispatched).
    ========================================= */
 
@@ -40,7 +40,8 @@ function translateEvents(lang) {
 
 /* 3. Initial translation + calendar build on DOM ready */
 document.addEventListener('DOMContentLoaded', () => {
-  const lang = localStorage.getItem('lang') || 'en';
+  const pathMatch = window.location.pathname.match(/^\/(en|nl|it)(?=\/|$)/);
+  const lang = (pathMatch && pathMatch[1]) || localStorage.getItem('site-lang') || 'en';
   translateEvents(lang);
 
   /* Build the FullCalendar instance if the library is present */
@@ -87,7 +88,7 @@ window.addEventListener('languageChanged', e => {
     select.dataset.bound = 'true';
     select.addEventListener('change', () => {
       const lang = select.value || 'en';
-      localStorage.setItem('lang', lang);
+      localStorage.setItem('site-lang', lang);
 
       /* Translate this page immediately */
       translateEvents(lang);

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KJ's Campfire • Camping in Sicilia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+  <div id="header-placeholder"></div>
+  <section class="hero">
+    <div class="container">
+      <h1>Live the Campfire Life in Sicilia</h1>
+      <p>Escape to the southern sun. Rustic pitches, blazing nights, and the freedom of the open road— all under Sicily's sparkling sky.</p>
+      <a href="about.html" class="btn">Learn More</a>
+    </div>
+  </section>
+  <div id="footer-placeholder"></div>
+  <script>
+    Promise.all([
+      fetch('../pages/components/header.html').then(r => r.text()).then(h => {
+        document.getElementById('header-placeholder').innerHTML = h;
+      }),
+      fetch('../pages/components/footer.html').then(r => r.text()).then(h => {
+        document.getElementById('footer-placeholder').innerHTML = h;
+      })
+    ]).then(() => {
+      const yearEl = document.getElementById('year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+      const headerScript = document.createElement('script');
+  headerScript.type = 'module';
+      headerScript.src = '/scripts/header.js';
+      document.body.appendChild(headerScript);
+    });
+  </script>
+</body>
+</html>
