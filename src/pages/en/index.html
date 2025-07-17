@@ -20,10 +20,10 @@
   <div id="footer-placeholder"></div>
   <script>
     Promise.all([
-      fetch('../pages/components/header.html').then(r => r.text()).then(h => {
+      fetch('../components/header.html').then(r => r.text()).then(h => {
         document.getElementById('header-placeholder').innerHTML = h;
       }),
-      fetch('../pages/components/footer.html').then(r => r.text()).then(h => {
+      fetch('../components/footer.html').then(r => r.text()).then(h => {
         document.getElementById('footer-placeholder').innerHTML = h;
       })
     ]).then(() => {
