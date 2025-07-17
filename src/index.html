@@ -3,42 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>KJ's Campfire</title>
-  <link rel="preload" href="/scripts/header.js" as="script">
-  <link rel="preload" href="/images/logo.png" as="image">
-  <link rel="stylesheet" href="/pages/styles/main.css">
+  <script>
+    const browser = (navigator.language || 'en').slice(0,2).toLowerCase();
+    const lang = ['en','it','nl'].includes(browser) ? browser : 'en';
+    window.location.replace('/' + lang + '/');
+  </script>
 </head>
 <body>
-  <div id="header-placeholder"></div>
-  <main class="landing">
-    <p>Loading...</p>
-  </main>
-  <div id="footer-placeholder"></div>
   <noscript>
     <a href="/en/">English</a> |
     <a href="/it/">Italiano</a> |
     <a href="/nl/">Nederlands</a>
   </noscript>
-  <script>
-    const stored = localStorage.getItem('site-lang');
-    const browser = (navigator.language || 'en').slice(0,2).toLowerCase();
-    const lang = ['en','nl','it'].includes(stored) ? stored :
-                 (['en','nl','it'].includes(browser) ? browser : 'en');
-    Promise.all([
-      fetch('pages/components/header.html').then(r => r.text()).then(h => {
-        document.getElementById('header-placeholder').innerHTML = h;
-      }),
-      fetch('pages/components/footer.html').then(r => r.text()).then(h => {
-        document.getElementById('footer-placeholder').innerHTML = h;
-      })
-    ]).then(() => {
-      const s = document.createElement('script');
-      s.type = 'module';
-      s.src = '/scripts/header.js';
-      document.body.appendChild(s);
-      setTimeout(() => {
-        window.location.href = `/${lang}/`;
-      }, 1000);
-    });
-  </script>
 </body>
 </html>
