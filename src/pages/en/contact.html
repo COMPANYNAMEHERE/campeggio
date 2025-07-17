@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
+  <!-- Header markup will be loaded here -->
   <div id="site-header"></div>
   <main class="container contact-page">
     <h1>Get in Touch</h1>
@@ -49,13 +50,15 @@
       subjectHF.value = category.value ? `[${category.value}] KJ's Camping Contact` : "KJ's Camping Contact";
     });
   </script>
+  <!-- Footer markup will be loaded here -->
   <div id="site-footer"></div>
   <script>
+    // Insert header and footer fragments then load header.js for nav handling
     Promise.all([
-      fetch('../pages/components/header.html').then(r => r.text()).then(h => {
+      fetch('../components/header.html').then(r => r.text()).then(h => {
         document.getElementById('site-header').innerHTML = h;
       }),
-      fetch('../pages/components/footer.html').then(r => r.text()).then(h => {
+      fetch('../components/footer.html').then(r => r.text()).then(h => {
         document.getElementById('site-footer').innerHTML = h;
       })
     ]).then(() => {

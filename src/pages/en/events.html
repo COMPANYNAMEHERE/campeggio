@@ -8,27 +8,30 @@
   <link rel="stylesheet" href="../styles/events.css">
 </head>
 <body>
+  <!-- Dynamic header goes here -->
   <div id="header-placeholder"></div>
   <main>
     <h1 data-key="upcomingEvents">Upcoming Events</h1>
     <div id="calendar"></div>
   </main>
+  <!-- Footer fragment -->
   <div id="footer-placeholder"></div>
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
-  <script type="module" src="../scripts/events.js"></script>
+  <script type="module" src="/scripts/events.js"></script>
   <script>
+    // Load header/footer first, then start header.js for language switching
     Promise.all([
-      fetch('../pages/components/header.html').then(r => r.text()).then(h => {
+      fetch('../components/header.html').then(r => r.text()).then(h => {
         document.querySelector('#header-placeholder').innerHTML = h;
       }),
-      fetch('../pages/components/footer.html').then(r => r.text()).then(h => {
+      fetch('../components/footer.html').then(r => r.text()).then(h => {
         document.querySelector('#footer-placeholder').innerHTML = h;
       })
     ]).then(() => {
       const year = document.getElementById('year');
       if (year) year.textContent = new Date().getFullYear();
       const headerScript = document.createElement('script');
-  headerScript.type = 'module';
+      headerScript.type = 'module';
       headerScript.src = '/scripts/header.js';
       document.body.appendChild(headerScript);
     });

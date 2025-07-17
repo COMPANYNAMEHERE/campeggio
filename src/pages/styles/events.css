@@ -103,7 +103,7 @@ nav a:hover {
 }
 
 .hero {
-  background: var(--burnt) url('../assets/images/logo.png') center/350px no-repeat fixed;
+  background: var(--burnt) url('../../assets/images/logo.png') center/350px no-repeat fixed;
   min-height: 80vh;
   display: flex;
   align-items: center;

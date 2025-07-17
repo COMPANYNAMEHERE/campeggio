@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
+  <!-- Dynamische header -->
   <div id="header-placeholder"></div>
   <section class="hero">
     <div class="container">
@@ -17,20 +18,22 @@
       <a href="about.html" class="btn">Meer Info</a>
     </div>
   </section>
+  <!-- Dynamische footer -->
   <div id="footer-placeholder"></div>
   <script>
+    // Haal gedeelde header en footer op en laad header.js
     Promise.all([
-      fetch('../pages/components/header.html').then(r => r.text()).then(h => {
+      fetch('../components/header.html').then(r => r.text()).then(h => {
         document.getElementById('header-placeholder').innerHTML = h;
       }),
-      fetch('../pages/components/footer.html').then(r => r.text()).then(h => {
+      fetch('../components/footer.html').then(r => r.text()).then(h => {
         document.getElementById('footer-placeholder').innerHTML = h;
       })
     ]).then(() => {
       const yearEl = document.getElementById('year');
       if (yearEl) yearEl.textContent = new Date().getFullYear();
       const headerScript = document.createElement('script');
-  headerScript.type = 'module';
+      headerScript.type = 'module';
       headerScript.src = '/scripts/header.js';
       document.body.appendChild(headerScript);
     });

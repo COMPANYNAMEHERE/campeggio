@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
+  <!-- Header wordt geladen via fetch -->
   <div id="site-header"></div>
   <main class="container contact-page">
     <h1>Neem contact op</h1>
@@ -49,20 +50,22 @@
       subjectHF.value = category.value ? `[${category.value}] KJ's Camping Contact` : "KJ's Camping Contact";
     });
   </script>
+  <!-- Footer wordt geladen via fetch -->
   <div id="site-footer"></div>
   <script>
+    // Haal header en footer op en start daarna header.js
     Promise.all([
-      fetch('../pages/components/header.html').then(r => r.text()).then(h => {
+      fetch('../components/header.html').then(r => r.text()).then(h => {
         document.getElementById('site-header').innerHTML = h;
       }),
-      fetch('../pages/components/footer.html').then(r => r.text()).then(h => {
+      fetch('../components/footer.html').then(r => r.text()).then(h => {
         document.getElementById('site-footer').innerHTML = h;
       })
     ]).then(() => {
       const year = document.getElementById('year');
       if (year) year.textContent = new Date().getFullYear();
       const headerScript = document.createElement('script');
-  headerScript.type = 'module';
+      headerScript.type = 'module';
       headerScript.src = '/scripts/header.js';
       document.body.appendChild(headerScript);
     });

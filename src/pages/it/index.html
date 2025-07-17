@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
+  <!-- Header will be inserted here -->
   <div id="header-placeholder"></div>
   <section class="hero">
     <div class="container">
@@ -17,20 +18,22 @@
       <a href="about.html" class="btn">Scopri di più</a>
     </div>
   </section>
+  <!-- Footer will be inserted here -->
   <div id="footer-placeholder"></div>
   <script>
+    // Fetch shared header and footer, then load header.js
     Promise.all([
-      fetch('../pages/components/header.html').then(r => r.text()).then(h => {
+      fetch('../components/header.html').then(r => r.text()).then(h => {
         document.getElementById('header-placeholder').innerHTML = h;
       }),
-      fetch('../pages/components/footer.html').then(r => r.text()).then(h => {
+      fetch('../components/footer.html').then(r => r.text()).then(h => {
         document.getElementById('footer-placeholder').innerHTML = h;
       })
     ]).then(() => {
       const yearEl = document.getElementById('year');
       if (yearEl) yearEl.textContent = new Date().getFullYear();
       const headerScript = document.createElement('script');
-  headerScript.type = 'module';
+      headerScript.type = 'module';
       headerScript.src = '/scripts/header.js';
       document.body.appendChild(headerScript);
     });

@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
+  <!-- Header inserito dinamicamente -->
   <div id="header-placeholder"></div>
   <main class="about">
     <div class="container">
@@ -17,20 +18,22 @@
       <a href="index.html" class="btn">← Torna alla Home</a>
     </div>
   </main>
+  <!-- Qui verrà caricato il footer -->
   <div id="footer-placeholder"></div>
   <script>
+    // Includi header e footer e poi carica header.js per la selezione lingua
     Promise.all([
-      fetch('../pages/components/header.html').then(r => r.text()).then(h => {
+      fetch('../components/header.html').then(r => r.text()).then(h => {
         document.getElementById('header-placeholder').innerHTML = h;
       }),
-      fetch('../pages/components/footer.html').then(r => r.text()).then(h => {
+      fetch('../components/footer.html').then(r => r.text()).then(h => {
         document.getElementById('footer-placeholder').innerHTML = h;
       })
     ]).then(() => {
       const yearSpan = document.getElementById('year');
       if (yearSpan) yearSpan.textContent = new Date().getFullYear();
       const headerScript = document.createElement('script');
-  headerScript.type = 'module';
+      headerScript.type = 'module';
       headerScript.src = '/scripts/header.js';
       document.body.appendChild(headerScript);
     });
