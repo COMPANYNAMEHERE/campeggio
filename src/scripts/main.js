@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+function init() {
   // Mobile nav toggle
   const navToggle = document.getElementById('nav-toggle');
   const navMenu = document.getElementById('nav-menu');
@@ -24,4 +24,19 @@ document.addEventListener('DOMContentLoaded', () => {
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
-});
+
+  // Fade in page-specific content
+  const mainContent = document.getElementById('page-content');
+  if (mainContent) {
+    requestAnimationFrame(() => {
+      mainContent.classList.add('fade-in');
+    });
+  }
+
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}

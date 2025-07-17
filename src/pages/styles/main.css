@@ -264,3 +264,16 @@ input[type="submit"]:hover {
   outline: none;
   box-shadow: 0 0 0 2px rgba(242, 177, 52, 0.5);
 }
+
+/* Fade-in animation for page content */
+.fade-container {
+  opacity: 0;
+}
+
+.fade-container.fade-in {
+  animation: fadein 0.6s ease forwards;
+}
+
+@keyframes fadein {
+  to { opacity: 1; }
+}
