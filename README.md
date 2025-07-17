@@ -15,13 +15,12 @@ This repo contains the static site that powers **KJ's Camping**. It is built wit
 
 ### Major
 1. Responsive mobile layout and navigation.
-2. Animated hero section on the homepage.
-3. Booking form with simple validation.
-4. CMS driven events feed.
-5. HTTPS deployment and security hardening.
+2. Booking form with simple validation.
+3. HTTPS deployment and security hardening.
+4. Better design (skeuomorphic design approach).
+5. Better narrated content.
 
 ### Minor
-- Newsletter sign-up widget.
 - Better accessibility (contrast and ARIA labels).
 - Print friendly style sheet.
 
