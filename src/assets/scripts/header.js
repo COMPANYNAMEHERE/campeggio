@@ -39,7 +39,14 @@
   });
 
   const logo = document.querySelector('a.logo-link');
-  if (logo) logo.setAttribute('href', `${basePath}/pages/${lang}/`);
+  if (logo) {
+    logo.setAttribute('href', `${basePath}/pages/${lang}/`);
+    const img = logo.querySelector('img');
+    if (img) img.src = `${basePath}/images/logo.png`;
+  }
+
+  const styleLink = document.querySelector('link[href$="header.css"]');
+  if (styleLink) styleLink.href = `${basePath}/pages/styles/header.css`;
 
   window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
 
