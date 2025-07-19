@@ -13,16 +13,16 @@ This repo contains the static site that powers **KJ's Camping**. It is built wit
 
 ## Planned improvements
 
-### Major
+### Todo
 1. Responsive mobile layout and navigation.
-2. Booking form with simple validation.
+2. Fix GitHub Pages.
 3. HTTPS deployment and security hardening.
-4. Better design (skeuomorphic design approach).
-5. Better narrated content.
-
-### Minor
-- Better accessibility (contrast and ARIA labels).
-- Print friendly style sheet.
+4. Booking form with simple validation.
+5. Better design (skeuomorphic design approach).
+6. Better narrated content.
+7. Add animations.
+8. Better accessibility (contrast and ARIA labels).
+9. Print friendly style sheet.
 
 ## Development
 
