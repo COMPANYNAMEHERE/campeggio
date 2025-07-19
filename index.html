@@ -2,10 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=src/index.html">
   <title>Redirecting...</title>
+  <script>
+    const stored = localStorage.getItem('site-lang');
+    const lang = ['en', 'it', 'nl'].includes(stored) ? stored : 'en';
+    let base = window.location.pathname.split('/pages')[0];
+    base = base.replace(/\/$/, '').replace(/\/index\.html$/, '');
+    window.location.replace(`${base}/pages/${lang}/`);
+  </script>
 </head>
 <body>
   <p>Redirecting to the main site...</p>
+  <noscript>
+    <a href="pages/en/">English</a> |
+    <a href="pages/it/">Italiano</a> |
+    <a href="pages/nl/">Nederlands</a>
+  </noscript>
 </body>
 </html>
