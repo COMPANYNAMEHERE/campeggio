@@ -11,15 +11,15 @@
                 ? stored
                 : (['en', 'it', 'nl'].includes(browser) ? browser : 'en');
     let base = window.location.pathname.split('/pages')[0];
-    base = base.replace(/\/$/, '');
+    base = base.replace(/\/$/, '').replace(/\/index\.html$/, '');
     window.location.replace(`${base}/pages/${lang}/`);
   </script>
 </head>
 <body>
   <noscript>
-    <a href="/en/">English</a> |
-    <a href="/it/">Italiano</a> |
-    <a href="/nl/">Nederlands</a>
+    <a href="pages/en/">English</a> |
+    <a href="pages/it/">Italiano</a> |
+    <a href="pages/nl/">Nederlands</a>
   </noscript>
 </body>
 </html>
