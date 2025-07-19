@@ -10,7 +10,8 @@
     const lang = ['en', 'it', 'nl'].includes(stored)
                 ? stored
                 : (['en', 'it', 'nl'].includes(browser) ? browser : 'en');
-    const base = window.location.pathname.split('/pages')[0];
+    let base = window.location.pathname.split('/pages')[0];
+    base = base.replace(/\/$/, '');
     window.location.replace(`${base}/pages/${lang}/`);
   </script>
 </head>
