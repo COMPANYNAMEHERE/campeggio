@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Over | KJ's Campfire</title>
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+  <!-- Header wordt hier ingevoegd -->
+  <div id="header-placeholder"></div>
+  <main id="page-content" class="about fade-container">
+    <div class="container">
+      <h1>Over KJ's Campfire</h1>
+      <p>KJ's Campfire is een kleine, door een familie gerunde camping aan de zonnige zuidkust van Sicilië. We begonnen met één idee: de magie van knapperende kampvuren, open luchten en Siciliaanse gastvrijheid delen met medereizigers.</p>
+      <p>Of je nu per motor, camper of met een rugzak aankomt, je vindt verscholen plekken tussen de olijfbomen, elke avond kampvuurmuziek en de geur van oranjebloesem op de bries.</p>
+      <p>Blijf één nacht of voor een heel seizoen—hoe dan ook ga je weg met zand in je schoenen en verhalen voor onderweg.</p>
+      <a href="index.html" class="btn">← Terug naar Home</a>
+    </div>
+  </main>
+  <!-- Footer wordt hier ingevoegd -->
+  <div id="footer-placeholder"></div>
+  <script>
+    // Haal header en footer op en laad header.js
+    Promise.all([
+      fetch('../components/header.html').then(r => r.text()).then(h => {
+        document.getElementById('header-placeholder').innerHTML = h;
+      }),
+      fetch('../components/footer.html').then(r => r.text()).then(h => {
+        document.getElementById('footer-placeholder').innerHTML = h;
+      })
+    ]).then(() => {
+      const yearSpan = document.getElementById('year');
+      if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+      const headerScript = document.createElement('script');
+      const base = window.location.pathname.split('/pages')[0];
+      headerScript.type = 'module';
+      headerScript.src = `${base}/scripts/header.js`;
+      document.body.appendChild(headerScript);
+    });
+  </script>
+<script src="/scripts/main.js"></script>
+</body>
+</html>

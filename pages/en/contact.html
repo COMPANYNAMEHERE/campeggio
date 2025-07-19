@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact – KJ's Camping</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="../styles/contact.css">
+  <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+  <!-- Header markup will be loaded here -->
+  <div id="site-header"></div>
+  <main id="page-content" class="container contact-page fade-container">
+    <h1>Get in Touch</h1>
+    <p>Select a category so we can route your message to the right crew 🔎 ⛺.</p>
+    <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <div class="field">
+        <label for="category">Category<span>*</span></label>
+        <select id="category" name="Category" required>
+          <option value="">— Choose one —</option>
+          <option>Reservations</option>
+          <option>Groups &amp; Events</option>
+          <option>Activities</option>
+          <option>Facilities &amp; Maintenance</option>
+          <option>Feedback &amp; Suggestions</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="name">Your Name<span>*</span></label>
+        <input type="text" id="name" name="Name" required>
+      </div>
+      <div class="field">
+        <label for="email">Email<span>*</span></label>
+        <input type="email" id="email" name="_replyto" required>
+      </div>
+      <div class="field">
+        <label for="message">Message<span>*</span></label>
+        <textarea id="message" name="Message" rows="6" required></textarea>
+      </div>
+      <input type="hidden" name="_subject" value="KJ's Camping Contact">
+      <button type="submit" class="btn">Send Message</button>
+    </form>
+  </main>
+  <script>
+    const form = document.getElementById('contact-form');
+    const category = document.getElementById('category');
+    const subjectHF = form.querySelector('input[name="_subject"]');
+    category.addEventListener('change', () => {
+      subjectHF.value = category.value ? `[${category.value}] KJ's Camping Contact` : "KJ's Camping Contact";
+    });
+  </script>
+  <!-- Footer markup will be loaded here -->
+  <div id="site-footer"></div>
+  <script>
+    // Insert header and footer fragments then load header.js for nav handling
+    Promise.all([
+      fetch('../components/header.html').then(r => r.text()).then(h => {
+        document.getElementById('site-header').innerHTML = h;
+      }),
+      fetch('../components/footer.html').then(r => r.text()).then(h => {
+        document.getElementById('site-footer').innerHTML = h;
+      })
+    ]).then(() => {
+      const year = document.getElementById('year');
+      if (year) year.textContent = new Date().getFullYear();
+      const headerScript = document.createElement('script');
+      const base = window.location.pathname.split('/pages')[0];
+      headerScript.type = 'module';
+      headerScript.src = `${base}/scripts/header.js`;
+      document.body.appendChild(headerScript);
+    });
+  </script>
+<script src="/scripts/main.js"></script>
+</body>
+</html>

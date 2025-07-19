@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Komende Evenementen | KJ's Camping</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
+  <link rel="stylesheet" href="../styles/events.css">
+</head>
+<body>
+  <!-- Dynamische header -->
+  <div id="header-placeholder"></div>
+  <main id="page-content" class="fade-container">
+    <h1 data-key="upcomingEvents">Komende Evenementen</h1>
+    <div id="calendar"></div>
+  </main>
+  <!-- Dynamische footer -->
+  <div id="footer-placeholder"></div>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+  <script type="module" src="/scripts/events.js"></script>
+  <script>
+    // Eerst header en footer laden, dan header.js activeren
+    Promise.all([
+      fetch('../components/header.html').then(r => r.text()).then(h => {
+        document.querySelector('#header-placeholder').innerHTML = h;
+      }),
+      fetch('../components/footer.html').then(r => r.text()).then(h => {
+        document.querySelector('#footer-placeholder').innerHTML = h;
+      })
+    ]).then(() => {
+      const year = document.getElementById('year');
+      if (year) year.textContent = new Date().getFullYear();
+      const headerScript = document.createElement('script');
+      const base = window.location.pathname.split('/pages')[0];
+      headerScript.type = 'module';
+      headerScript.src = `${base}/scripts/header.js`;
+      document.body.appendChild(headerScript);
+    });
+  </script>
+<script src="/scripts/main.js"></script>
+</body>
+</html>
