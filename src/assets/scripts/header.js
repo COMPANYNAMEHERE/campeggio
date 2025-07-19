@@ -1,5 +1,6 @@
 // Header language‑switcher + nav helper
 (function () {
+  const basePath = window.location.pathname.split('/pages')[0];
   const langSelect = document.getElementById('language-select');
   if (!langSelect) return;
   langSelect.dataset.bound = 'true';
@@ -34,11 +35,11 @@
   document.querySelectorAll('nav.main-nav a').forEach(link => {
     const base = link.getAttribute('href');
     // prefix with /pages so links work after moving files
-    link.setAttribute('href', `/pages/${lang}${base}`);
+    link.setAttribute('href', `${basePath}/pages/${lang}${base}`);
   });
 
   const logo = document.querySelector('a.logo-link');
-  if (logo) logo.setAttribute('href', `/pages/${lang}/`);
+  if (logo) logo.setAttribute('href', `${basePath}/pages/${lang}/`);
 
   window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
 
@@ -48,6 +49,6 @@
     localStorage.setItem('site-lang', newLang);
     window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: newLang } }));
     const suffix = window.location.pathname.replace(/^\/pages\/(en|nl|it)/, '');
-    window.location.href = `/pages/${newLang}${suffix}`;
+    window.location.href = `${basePath}/pages/${newLang}${suffix}`;
   });
 })();

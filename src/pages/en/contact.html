@@ -65,8 +65,9 @@
       const year = document.getElementById('year');
       if (year) year.textContent = new Date().getFullYear();
       const headerScript = document.createElement('script');
-  headerScript.type = 'module';
-      headerScript.src = '/scripts/header.js';
+      const base = window.location.pathname.split('/pages')[0];
+      headerScript.type = 'module';
+      headerScript.src = `${base}/scripts/header.js`;
       document.body.appendChild(headerScript);
     });
   </script>

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KJ's Campfire • Kamperen in Sicilië</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon" id="favicon">
   <link rel="stylesheet" href="../styles/main.css">
 </head>
 <body>
@@ -35,8 +35,10 @@
       const yearEl = document.getElementById('year');
       if (yearEl) yearEl.textContent = new Date().getFullYear();
       const headerScript = document.createElement('script');
+      const base = window.location.pathname.split('/pages')[0];
+      document.getElementById('favicon').href = `${base}/images/favicon.ico`;
       headerScript.type = 'module';
-      headerScript.src = '/scripts/header.js';
+      headerScript.src = `${base}/scripts/header.js`;
       document.body.appendChild(headerScript);
     });
   </script>

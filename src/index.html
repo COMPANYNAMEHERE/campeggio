@@ -6,11 +6,12 @@
   <script>
     // redirect to the preferred language page under /pages
     const stored = localStorage.getItem('site-lang');
-    const browser = (navigator.language || 'en').slice(0,2).toLowerCase();
-    const lang = ['en','it','nl'].includes(stored)
+    const browser = (navigator.language || 'en').slice(0, 2).toLowerCase();
+    const lang = ['en', 'it', 'nl'].includes(stored)
                 ? stored
-                : (['en','it','nl'].includes(browser) ? browser : 'en');
-    window.location.replace(`/pages/${lang}/`);
+                : (['en', 'it', 'nl'].includes(browser) ? browser : 'en');
+    const base = window.location.pathname.split('/pages')[0];
+    window.location.replace(`${base}/pages/${lang}/`);
   </script>
 </head>
 <body>
