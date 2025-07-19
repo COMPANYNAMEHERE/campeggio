@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KJ's Campfire</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --burnt: #8B3A25;
+      --gold:  #F2B134;
+      --dark:  #2F1A13;
+      --light: #FAF6F3;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      color: var(--light);
+      background: var(--dark);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #logo {
+      width: 220px;
+      animation: zoomfade 3s ease-in-out forwards;
+    }
+
+    @keyframes zoomfade {
+      0% { opacity: 0; transform: scale(1); }
+      15% { opacity: 1; }
+      85% { opacity: 1; }
+      100% { opacity: 0; transform: scale(1.3); }
+    }
+  </style>
+  <script>
+    // determine target language
+    const stored = localStorage.getItem('site-lang');
+    const browser = (navigator.language || 'en').slice(0, 2).toLowerCase();
+    const lang = ['en', 'it', 'nl'].includes(stored)
+      ? stored
+      : (['en', 'it', 'nl'].includes(browser) ? browser : 'en');
+
+    // preload the destination page to speed up redirect
+    const base = window.location.pathname
+      .split('/pages')[0]
+      .replace(/\/$/, '')
+      .replace(/\/index\.html$/, '');
+    const target = `${base}/pages/${lang}/`;
+    const link = document.createElement('link');
+    link.rel = 'prefetch';
+    link.href = target;
+    document.head.appendChild(link);
+
+    // redirect after a short landing delay
+    setTimeout(() => {
+      window.location.replace(target);
+    }, 3000);
+  </script>
+</head>
+<body>
+  <img id="logo" src="images/logo.png" alt="KJ's Campfire logo">
+  <noscript>
+    <a href="pages/en/">English</a> |
+    <a href="pages/it/">Italiano</a> |
+    <a href="pages/nl/">Nederlands</a>
+  </noscript>
+</body>
+</html>
