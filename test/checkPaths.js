@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const cheerio = require('cheerio');
 
 const baseDir = path.resolve(__dirname, '../src');
 const pagesDir = path.join(baseDir, 'pages');
@@ -24,46 +25,47 @@ function checkFileExists(filePath) {
   }
 }
 
+
 function verifyHtml(file) {
   const html = fs.readFileSync(file, 'utf8');
   const dir = path.dirname(file);
-  const hrefSrcRegex = /(href|src)=\"([^\"]+)\"/g;
-  const fetchRegex = /fetch\(['"]([^'"]+)['"]\)/g;
   const missing = [];
+  const $ = cheerio.load(html);
 
-  let match;
-  while ((match = hrefSrcRegex.exec(html)) !== null) {
-    const [, , value] = match;
-    if (/^(https?:|mailto:|tel:)/.test(value)) continue;
-    if (value.startsWith('/') && value.endsWith('.html')) continue;
-    if (value.startsWith('/')) {
-      const cleaned = value.replace(/^\//, '');
-      const absPath = cleaned.startsWith('images/') || cleaned.startsWith('assets/')
-        ? path.join(baseDir, 'assets', cleaned.replace(/^assets\//, ''))
-        : path.join(baseDir, cleaned);
-      if (!checkFileExists(absPath)) missing.push(value);
-    } else {
-      const absPath = path.resolve(dir, value);
-      if (!checkFileExists(absPath)) missing.push(value);
-    }
-  }
-
-  while ((match = fetchRegex.exec(html)) !== null) {
-    const [, value] = match;
-    if (/^https?:/.test(value)) continue;
+  $('[href], [src]').each((_, el) => {
+    const value = $(el).attr('href') || $(el).attr('src');
+    if (!value) return;
+    if (/^(https?:|mailto:|tel:)/.test(value)) return;
+    if (value.startsWith('/') && value.endsWith('.html')) return;
     const absPath = value.startsWith('/') ? (() => {
       const cleaned = value.replace(/^\//, '');
-      if (cleaned.startsWith('images/') || cleaned.startsWith('assets/')) {
-        return path.join(baseDir, 'assets', cleaned.replace(/^assets\//, ''));
-      }
-      return path.join(baseDir, cleaned);
+      return cleaned.startsWith('images/') || cleaned.startsWith('assets/')
+        ? path.join(baseDir, 'assets', cleaned.replace(/^assets\//, ''))
+        : path.join(baseDir, cleaned);
     })() : path.resolve(dir, value);
     if (!checkFileExists(absPath)) missing.push(value);
-  }
+  });
+
+  $('script').each((_, el) => {
+    const content = $(el).html() || '';
+    const fetchRegex = /fetch\(['"]([^'\"]+)['"]\)/g;
+    let m;
+    while ((m = fetchRegex.exec(content)) !== null) {
+      const value = m[1];
+      if (/^https?:/.test(value)) continue;
+      const absPath = value.startsWith('/') ? (() => {
+        const cleaned = value.replace(/^\//, '');
+        if (cleaned.startsWith('images/') || cleaned.startsWith('assets/')) {
+          return path.join(baseDir, 'assets', cleaned.replace(/^assets\//, ''));
+        }
+        return path.join(baseDir, cleaned);
+      })() : path.resolve(dir, value);
+      if (!checkFileExists(absPath)) missing.push(value);
+    }
+  });
 
   return missing;
 }
-
 const htmlFiles = walkDir(pagesDir, '.html');
 let failed = false;
 htmlFiles.forEach(file => {
