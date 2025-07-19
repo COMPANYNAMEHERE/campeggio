@@ -31,3 +31,9 @@ Run a quick check that all internal links resolve correctly:
 ```bash
 npm test
 ```
+
+Deploy the current `src` tree to GitHub Pages:
+
+```bash
+npm run deploy
+```
