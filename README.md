@@ -32,7 +32,7 @@ Run a quick check that all internal links resolve correctly:
 npm test
 ```
 
-Deploy the current `src` tree to GitHub Pages:
+Run tests and build the project:
 
 ```bash
 npm run deploy
