@@ -1,4 +1,4 @@
-/* ========= React Calendar overrides ========= */
+/* ========= Simple Calendar Styles ========= */
 .calendar-container{
   width: min(90vw, 1100px);
   margin: 3rem auto;
@@ -30,7 +30,7 @@
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
-  background: var(--background, #fff);                 /* inherit site background */
+  background: #fff;
 }
 
 #page-content .calendar-table th,
@@ -68,3 +68,14 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.past-day {
+  background: #eee;
+  color: #999;
+}
+
+.today {
+  background: var(--burnt);
+  color: var(--light);
+}
+
