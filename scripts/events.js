@@ -21,6 +21,10 @@ const eventsTranslations = {
   }
 };
 
+/* ---------------- Google Calendar config ---------------- */
+const GOOGLE_CALENDAR_API_KEY = 'REPLACE_WITH_YOUR_KEY';
+const CALENDAR_ID            = 'REPLACE_WITH_YOUR_CALENDAR_ID';
+
 /* 2. Helper to translate static text + calendar */
 function translateEvents(lang) {
   const t = eventsTranslations[lang] || eventsTranslations.en;
@@ -49,7 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
   if (calendarEl && window.FullCalendar) {
     const localeMap = { en: 'en', nl: 'nl', it: 'it' };
     window.calendar = new FullCalendar.Calendar(calendarEl, {
-      plugins: [ 'dayGrid', 'interaction' ],
+      plugins: [
+        dayGridPlugin,
+        interactionPlugin,
+        (typeof googleCalendarPlugin !== 'undefined' ? googleCalendarPlugin : null)
+      ].filter(Boolean),
       locale: localeMap[lang] || 'en',
       initialView: 'dayGridMonth',
       height: 'auto',
@@ -58,8 +66,14 @@ document.addEventListener('DOMContentLoaded', () => {
         center: '',
         end: 'prev,next today'
       },
-      /* TODO: replace with your real events feed */
-      events: []
+      eventSources: [{
+        googleCalendarId: CALENDAR_ID,
+        apiKey: GOOGLE_CALENDAR_API_KEY
+      }],
+      eventClick: function (info) {
+        info.jsEvent.preventDefault();
+        showEventModal(info.event);
+      }
     });
     window.calendar.render();
   }
@@ -117,4 +131,31 @@ window.addEventListener('languageChanged', e => {
 
   /* Initial attempt in case header is already there */
   attach();
+/* ---------------- Modal helper ---------------- */
+function showEventModal(ev) {
+  let overlay = document.getElementById('event-modal-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'event-modal-overlay';
+    overlay.className = 'modal-overlay';
+    document.body.appendChild(overlay);
+  }
+
+  overlay.innerHTML = `
+    <div class="modal-content">
+      <h2>${ev.title}</h2>
+      <p><strong>Start:</strong> ${ev.start.toLocaleString('nl-NL')}</p>
+      ${ev.end ? `<p><strong>Eind:</strong> ${ev.end.toLocaleString('nl-NL')}</p>` : ''}
+      ${ev.extendedProps.location ? `<p><strong>Locatie:</strong> ${ev.extendedProps.location}</p>` : ''}
+      ${ev.extendedProps.description ? `<p>${ev.extendedProps.description}</p>` : ''}
+      <button class="close-button">Sluiten</button>
+    </div>
+  `;
+
+  overlay.querySelector('.close-button').addEventListener('click', () => overlay.remove());
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) overlay.remove();
+  });
+}
+
 })();
