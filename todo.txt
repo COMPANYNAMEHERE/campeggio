@@ -2,4 +2,5 @@
 - animation at first loadin
 - security check
 - logo
-- 
+- google calendar sync
+- contact form email sorting
