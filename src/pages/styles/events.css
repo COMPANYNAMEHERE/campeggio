@@ -1,7 +1,11 @@
 /* ========= Simple Calendar Styles ========= */
-.calendar-container{
+.calendar-container {
   width: min(90vw, 1100px);
   margin: 3rem auto;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 .calendar-header{
@@ -77,5 +81,13 @@
 .today {
   background: var(--burnt);
   color: var(--light);
+}
+
+.events-list {
+  margin-top: 2rem;
+}
+
+.events-list article + article {
+  margin-top: 1rem;
 }
 
