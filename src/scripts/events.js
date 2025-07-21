@@ -2,6 +2,53 @@ document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('calendar');
   if (!container) return;
 
+  const langMatch = window.location.pathname.match(/\/(en|it|nl)(?=\/|$)/);
+  const lang = langMatch ? langMatch[1] : 'en';
+
+  const events = [
+    {
+      date: '2025-07-05',
+      titles: {
+        en: 'Summer Kickoff BBQ',
+        it: 'Grigliata di Inizio Estate',
+        nl: 'Zomer BBQ Opening'
+      },
+      descriptions: {
+        en: 'Gather for grilled classics, live music and campfire stories.',
+        it: 'Una serata con griglia, musica dal vivo e racconti intorno al fuoco.',
+        nl: 'Geniet van gegrilde lekkernijen, live muziek en kampvuurverhalen.'
+      }
+    },
+    {
+      date: '2025-08-21',
+      titles: {
+        en: "Stargazer's Night",
+        it: 'Notte delle Stelle',
+        nl: 'Sterrenkijkavond'
+      },
+      descriptions: {
+        en: 'Join our astronomy guide for a tour of the Sicilian skies.',
+        it: 'Osserviamo il cielo siciliano con la nostra guida astronomica.',
+        nl: 'Onze sterrenkundige gids laat je de Siciliaanse hemel ontdekken.'
+      }
+    },
+    {
+      date: '2025-10-12',
+      titles: {
+        en: 'Fall Harvest Festival',
+        it: 'Festa del Raccolto',
+        nl: 'Oogstfeest'
+      },
+      descriptions: {
+        en: 'Celebrate the olive and grape harvest with local food and craft stalls.',
+        it: 'Festeggiamo olive e uva con cibo locale e bancarelle artigiane.',
+        nl: 'Vier de olijf- en druivenoogst met lokaal eten en kraampjes.'
+      }
+    }
+  ];
+
+  const listEl = document.getElementById('events-list');
+
   let current = new Date();
   current.setDate(1);
   const today = new Date();
@@ -40,12 +87,20 @@ document.addEventListener('DOMContentLoaded', () => {
           if (cellDate < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
             classes += ' past-day';
           }
-          if (cellDate.getFullYear() === today.getFullYear() &&
-              cellDate.getMonth() === today.getMonth() &&
-              cellDate.getDate() === today.getDate()) {
+          if (
+            cellDate.getFullYear() === today.getFullYear() &&
+            cellDate.getMonth() === today.getMonth() &&
+            cellDate.getDate() === today.getDate()
+          ) {
             classes += ' today';
           }
-          html += `<td class="${classes}"><span class="date-number">${day}</span></td>`;
+          const iso = cellDate.toISOString().slice(0, 10);
+          const dayEvents = events.filter(e => e.date === iso);
+          let cellHtml = `<span class="date-number">${day}</span>`;
+          dayEvents.forEach(e => {
+            cellHtml += `<div class="event">${e.titles[lang]}</div>`;
+          });
+          html += `<td class="${classes}">${cellHtml}</td>`;
           day++;
         }
       }
@@ -64,5 +119,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  function renderList() {
+    if (!listEl) return;
+    const upcoming = events
+      .filter(e => new Date(e.date) >= new Date(today.getFullYear(), today.getMonth(), today.getDate()))
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
+    let html = '';
+    upcoming.forEach(e => {
+      const d = new Date(e.date);
+      const dateStr = d.toLocaleDateString(lang, { day: 'numeric', month: 'long', year: 'numeric' });
+      html += `<article><h2>${dateStr} – ${e.titles[lang]}</h2><p>${e.descriptions[lang]}</p></article>`;
+    });
+    listEl.innerHTML = html;
+  }
+
   render();
+  renderList();
 });
