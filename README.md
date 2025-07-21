@@ -31,3 +31,9 @@ Run a quick check that all internal links resolve correctly:
 ```bash
 npm test
 ```
+
+Run tests and build the project:
+
+```bash
+npm run deploy
+```
