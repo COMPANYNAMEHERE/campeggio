@@ -38,11 +38,11 @@
 }
 
 #page-content .calendar-table th,
-#page-content .calendar-table td{
+#page-content .calendar-table td {
   text-align: center;
   background: inherit;               /* remove white fill */
   border: 1px solid rgba(200,200,200,.25); /* soft grey outline for each day */
-  width: calc(100% / 7);
+  color: #000;                       /* ensure text visibility */
 }
 
 .calendar-table td{
@@ -68,6 +68,7 @@
   background: rgba(242,177,52,.15);
   padding: 2px 4px;
   border-radius: 3px;
+  color: #000;
   cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
@@ -81,7 +82,7 @@
 
 .today {
   background: var(--burnt);
-  color: var(--light);
+  color: #000;
 }
 
 .events-list {
