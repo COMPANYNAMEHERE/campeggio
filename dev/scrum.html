@@ -6,31 +6,59 @@
   <style>
     body {
       font-family: Arial, sans-serif;
+      background: #f9f9ff;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
+
     .board {
       display: flex;
       gap: 20px;
+      width: 100%;
+      max-width: 1000px;
     }
+
     .column {
       flex: 1;
-      border: 1px solid #ccc;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       padding: 10px;
-      min-height: 200px;
+      min-height: 250px;
     }
+
     .column h2 {
       text-align: center;
+      margin-top: 0;
     }
+
     ul {
       list-style: none;
       padding: 0;
+      min-height: 200px;
     }
+
     li {
       margin: 5px 0;
-      padding: 5px;
-      background: #f0f0f0;
+      padding: 8px;
+      background: #e3f2fd;
+      border-radius: 4px;
+      cursor: move;
     }
+
+    li.minor {
+      background: #fff9c4;
+    }
+
     button {
       margin-left: 5px;
+    }
+
+    .controls {
+      margin-bottom: 10px;
+      text-align: center;
     }
   </style>
 </head>
@@ -39,17 +67,22 @@
   <div class="board">
     <div class="column" id="todoColumn">
       <h2>To Do</h2>
-      <input id="newTask" placeholder="New task">
-      <button onclick="addTask()">Add</button>
-      <ul id="todoList"></ul>
+      <div class="controls">
+        <input id="newTask" placeholder="New task">
+        <label>
+          <input type="checkbox" id="minorTask"> Minor
+        </label>
+        <button onclick="addTask()">Add</button>
+      </div>
+      <ul id="todoList" data-column="todo"></ul>
     </div>
     <div class="column" id="progressColumn">
       <h2>In Progress</h2>
-      <ul id="progressList"></ul>
+      <ul id="progressList" data-column="progress"></ul>
     </div>
     <div class="column" id="doneColumn">
       <h2>Done</h2>
-      <ul id="doneList"></ul>
+      <ul id="doneList" data-column="done"></ul>
     </div>
   </div>
 
@@ -60,7 +93,7 @@
       fetch('/data')
         .then(r => r.json())
         .then(data => {
-          board = data;
+          board = normalize(data);
           render();
         })
         .catch(render);
@@ -75,36 +108,45 @@
     }
 
     function render() {
-      document.getElementById('todoList').innerHTML = '';
-      document.getElementById('progressList').innerHTML = '';
-      document.getElementById('doneList').innerHTML = '';
+      const lists = {
+        todo: document.getElementById('todoList'),
+        progress: document.getElementById('progressList'),
+        done: document.getElementById('doneList')
+      };
 
-      board.todo.forEach((task, idx) => {
-        const li = document.createElement('li');
-        li.textContent = task;
-        li.appendChild(createButton('Start', () => moveTask('todo', 'progress', idx)));
-        document.getElementById('todoList').appendChild(li);
-      });
+      Object.keys(lists).forEach(k => (lists[k].innerHTML = ''));
 
-      board.progress.forEach((task, idx) => {
-        const li = document.createElement('li');
-        li.textContent = task;
-        li.appendChild(createButton('Done', () => moveTask('progress', 'done', idx)));
-        document.getElementById('progressList').appendChild(li);
-      });
-
-      board.done.forEach(task => {
-        const li = document.createElement('li');
-        li.textContent = task;
-        document.getElementById('doneList').appendChild(li);
+      Object.keys(board).forEach(col => {
+        board[col].forEach((task, idx) => {
+          const li = document.createElement('li');
+          li.textContent = task.text;
+          li.className = task.minor ? 'minor' : '';
+          li.draggable = true;
+          li.dataset.column = col;
+          li.dataset.index = idx;
+          li.addEventListener('dragstart', handleDragStart);
+          lists[col].appendChild(li);
+        });
       });
     }
 
-    function createButton(label, onClick) {
-      const btn = document.createElement('button');
-      btn.textContent = label;
-      btn.addEventListener('click', onClick);
-      return btn;
+    function handleDragStart(e) {
+      e.dataTransfer.setData(
+        'text/plain',
+        JSON.stringify({ from: e.target.dataset.column, index: e.target.dataset.index })
+      );
+    }
+
+    document.querySelectorAll('ul[data-column]').forEach(ul => {
+      ul.addEventListener('dragover', e => e.preventDefault());
+      ul.addEventListener('drop', handleDrop);
+    });
+
+    function handleDrop(e) {
+      e.preventDefault();
+      const to = e.currentTarget.dataset.column;
+      const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+      moveTask(data.from, to, parseInt(data.index, 10));
     }
 
     function moveTask(from, to, index) {
@@ -116,12 +158,24 @@
 
     function addTask() {
       const input = document.getElementById('newTask');
-      const task = input.value.trim();
-      if (!task) return;
-      board.todo.push(task);
+      const minor = document.getElementById('minorTask').checked;
+      const text = input.value.trim();
+      if (!text) return;
+      board.todo.push({ text, minor });
       input.value = '';
+      document.getElementById('minorTask').checked = false;
       saveData();
       render();
+    }
+
+    function normalize(data) {
+      ['todo', 'progress', 'done'].forEach(k => {
+        data[k] = (data[k] || []).map(t => {
+          if (typeof t === 'string') return { text: t, minor: false };
+          return { text: t.text, minor: !!t.minor };
+        });
+      });
+      return data;
     }
 
     loadData();

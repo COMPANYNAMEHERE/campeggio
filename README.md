@@ -32,8 +32,9 @@ Run a quick check that all internal links resolve correctly:
 npm test
 ```
 
-Launch the experimental scrum board:
+Launch the experimental drag-and-drop scrum board:
 
 ```bash
 npm run scrum
 ```
+The board supports drag-and-drop task management and a checkbox to mark tasks as minor.
