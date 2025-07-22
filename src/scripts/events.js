@@ -66,47 +66,40 @@ document.addEventListener('DOMContentLoaded', () => {
     html += '<button class="nav-button" id="next-month">\u203A</button>';
     html += '</div>';
 
-    html += '<table class="calendar-table"><thead><tr>';
+    html += '<div class="calendar-grid">';
     for (let i = 0; i < 7; i++) {
-      const d = new Date(2021, 0, 4 + i); // Monday based labels
-      html += `<th>${d.toLocaleDateString(undefined, { weekday: 'short' })}</th>`;
+      const d = new Date(2021, 0, 4 + i);
+      html += `<div class="day-name">${d.toLocaleDateString(undefined, { weekday: 'short' })}</div>`;
     }
-    html += '</tr></thead><tbody>';
+
+    for (let i = 0; i < startIndex; i++) {
+      html += '<div class="day-cell"></div>';
+    }
 
     let day = 1;
-    const rows = Math.ceil((startIndex + daysInMonth) / 7);
-    for (let r = 0; r < rows; r++) {
-      html += '<tr>';
-      for (let c = 0; c < 7; c++) {
-        const cell = r * 7 + c;
-        if (cell < startIndex || day > daysInMonth) {
-          html += '<td></td>';
-        } else {
-          const cellDate = new Date(year, month, day);
-          let classes = 'calendar-cell';
-          if (cellDate < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
-            classes += ' past-day';
-          }
-          if (
-            cellDate.getFullYear() === today.getFullYear() &&
-            cellDate.getMonth() === today.getMonth() &&
-            cellDate.getDate() === today.getDate()
-          ) {
-            classes += ' today';
-          }
-          const iso = cellDate.toISOString().slice(0, 10);
-          const dayEvents = events.filter(e => e.date === iso);
-          let cellHtml = `<span class="date-number">${day}</span>`;
-          dayEvents.forEach(e => {
-            cellHtml += `<div class="event">${e.titles[lang]}</div>`;
-          });
-          html += `<td class="${classes}">${cellHtml}</td>`;
-          day++;
-        }
+    while (day <= daysInMonth) {
+      const cellDate = new Date(year, month, day);
+      let classes = 'day-cell';
+      if (cellDate < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+        classes += ' past-day';
       }
-      html += '</tr>';
+      if (
+        cellDate.getFullYear() === today.getFullYear() &&
+        cellDate.getMonth() === today.getMonth() &&
+        cellDate.getDate() === today.getDate()
+      ) {
+        classes += ' today';
+      }
+      const iso = cellDate.toISOString().slice(0, 10);
+      const dayEvents = events.filter(e => e.date === iso);
+      let cellHtml = `<span class="date-number">${day}</span>`;
+      dayEvents.forEach(e => {
+        cellHtml += `<div class="event">${e.titles[lang]}</div>`;
+      });
+      html += `<div class="${classes}">${cellHtml}</div>`;
+      day++;
     }
-    html += '</tbody></table>';
+    html += '</div>';
     container.innerHTML = html;
 
     document.getElementById('prev-month').addEventListener('click', () => {

@@ -30,33 +30,33 @@
   cursor: pointer;
 }
 
-#page-content .calendar-table{
-  width: 100%;
-  table-layout: fixed;
+#page-content .calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
   border-collapse: collapse;
-  background: #fff;
+  border: 1px solid rgba(200,200,200,.25);
 }
 
-#page-content .calendar-table th,
-#page-content .calendar-table td {
+#page-content .day-name,
+#page-content .day-cell {
   text-align: center;
-  background: inherit;               /* remove white fill */
-  border: 1px solid rgba(200,200,200,.25); /* soft grey outline for each day */
-  color: #000;                       /* ensure text visibility */
-  width: calc(100% / 7);             /* ensure 7 columns */
+  background: inherit;
+  border: 1px solid rgba(200,200,200,.25);
+  color: #000;
 }
 
-.calendar-table td{
-  vertical-align: top;
-  height: 120px;
+.day-name {
+  font-weight: 700;
+  padding: .25rem 0;
+}
+
+.day-cell {
+  min-height: 120px;
   padding: .25rem;
-}
-
-.calendar-cell{
   display: flex;
   flex-direction: column;
-  height: 100%;
 }
+
 
 .date-number{
   font-weight: 700;
