@@ -52,7 +52,37 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ];
 
+  const tasks = [
+    {
+      id: 'clean-grill',
+      titles: {
+        en: 'Clean Grill',
+        it: 'Pulire il barbecue',
+        nl: 'Grill schoonmaken'
+      },
+      descriptions: {
+        en: 'Give the communal grill a quick scrub.',
+        it: 'Dai una pulita veloce al barbecue comune.',
+        nl: 'Maak de gezamenlijke grill schoon.'
+      }
+    },
+    {
+      id: 'check-lights',
+      titles: {
+        en: 'Check Lights',
+        it: 'Controlla le luci',
+        nl: 'Lampen controleren'
+      },
+      descriptions: {
+        en: 'Ensure all path lights work.',
+        it: 'Assicurati che tutte le luci dei vialetti funzionino.',
+        nl: 'Controleer of alle padlampen werken.'
+      }
+    }
+  ];
+
   const listEl = document.getElementById('events-list');
+  const tasksEl = document.getElementById('tasks-list');
 
   let current = new Date();
   current.setDate(1);
@@ -119,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
       dayEvents.forEach(e => {
         cellHtml += `<div class="event" data-date="${e.date}" data-title="${e.titles[lang]}" data-desc="${e.descriptions[lang]}">${e.titles[lang]}</div>`;
       });
-      html += `<div class="${classes}">${cellHtml}</div>`;
+      html += `<div class="${classes}" data-date="${iso}">${cellHtml}</div>`;
       day++;
     }
     html += '</div>';
@@ -132,6 +162,29 @@ document.addEventListener('DOMContentLoaded', () => {
           title: el.dataset.title,
           desc: el.dataset.desc
         });
+      });
+    });
+
+    container.querySelectorAll('.day-cell').forEach(cell => {
+      cell.addEventListener('dragover', ev => ev.preventDefault());
+      cell.addEventListener('drop', ev => {
+        ev.preventDefault();
+        const data = ev.dataTransfer.getData('text/plain');
+        if (!data) return;
+        let info;
+        try { info = JSON.parse(data); } catch (e) { return; }
+        const taskEl = document.createElement('div');
+        taskEl.className = 'task';
+        taskEl.textContent = info.title;
+        taskEl.dataset.title = info.title;
+        taskEl.dataset.desc = info.desc;
+        taskEl.dataset.date = cell.dataset.date;
+        taskEl.addEventListener('click', () => {
+          openModal({ date: cell.dataset.date, title: info.title, desc: info.desc });
+        });
+        cell.appendChild(taskEl);
+        const orig = tasksEl.querySelector(`[data-id="${info.id}"]`);
+        if (orig) orig.remove();
       });
     });
 
@@ -168,6 +221,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  function renderTasks() {
+    if (!tasksEl) return;
+    let html = '';
+    tasks.forEach(t => {
+      html += `<div class="task-item" draggable="true" data-id="${t.id}" data-title="${t.titles[lang]}" data-desc="${t.descriptions[lang]}">${t.titles[lang]}</div>`;
+    });
+    tasksEl.innerHTML = html;
+    tasksEl.querySelectorAll('.task-item').forEach(el => {
+      el.addEventListener('dragstart', ev => {
+        ev.dataTransfer.setData('text/plain', JSON.stringify({
+          id: el.dataset.id,
+          title: el.dataset.title,
+          desc: el.dataset.desc
+        }));
+      });
+      el.addEventListener('click', () => {
+        openModal({
+          date: today.toISOString().slice(0, 10),
+          title: el.dataset.title,
+          desc: el.dataset.desc
+        });
+      });
+    });
+  }
+
   render();
   renderList();
+  renderTasks();
 });
