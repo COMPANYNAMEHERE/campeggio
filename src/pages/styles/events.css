@@ -67,7 +67,7 @@
 .event{
   font-size: .8rem;
   margin-bottom: .25rem;
-  background: rgba(242,177,52,.15);
+  background: linear-gradient(#fff, #f5f5f5);
   padding: 2px 4px;
   border-radius: 3px;
   color: #000;
@@ -75,6 +75,13 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: transform .2s, box-shadow .2s;
+}
+
+.event:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
 .past-day {
@@ -93,6 +100,21 @@
 
 .events-list article + article {
   margin-top: 1rem;
+}
+
+.event-item {
+  background: linear-gradient(#fff, #f5f5f5);
+  color: #000;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: transform .2s, box-shadow .2s;
+  cursor: pointer;
+}
+
+.event-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
 /* ========= Modal Styles ========= */

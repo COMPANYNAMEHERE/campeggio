@@ -85,14 +85,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let html = '<div class="calendar-header">';
     html += '<button class="nav-button" id="prev-month">\u2039</button>';
-    html += `<div class="month-year">${firstDay.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}</div>`;
+    html += `<div class="month-year">${firstDay.toLocaleDateString(lang, { month: 'long', year: 'numeric' })}</div>`;
     html += '<button class="nav-button" id="next-month">\u203A</button>';
     html += '</div>';
 
     html += '<div class="calendar-grid">';
     for (let i = 0; i < 7; i++) {
       const d = new Date(2021, 0, 4 + i);
-      html += `<div class="day-name">${d.toLocaleDateString(undefined, { weekday: 'short' })}</div>`;
+      html += `<div class="day-name">${d.toLocaleDateString(lang, { weekday: 'short' })}</div>`;
     }
 
     for (let i = 0; i < startIndex; i++) {
