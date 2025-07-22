@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let current = new Date();
   current.setDate(1);
   const today = new Date();
+  const startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
   function openModal(info) {
     if (!modal) return;
@@ -100,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const dayNum = prevMonthDays - startIndex + i + 1;
       const cellDate = new Date(year, month - 1, dayNum);
       let classes = 'day-cell';
-      if (cellDate < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+      if (cellDate < startOfToday) {
         classes += ' past-day';
       }
       html += `<div class="${classes}"><span class="date-number">${dayNum}</span></div>`;
@@ -110,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
     while (day <= daysInMonth) {
       const cellDate = new Date(year, month, day);
       let classes = 'day-cell';
-      if (cellDate < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+      if (cellDate < startOfToday) {
         classes += ' past-day';
       }
       if (
@@ -155,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderList() {
     if (!listEl) return;
     const upcoming = events
-      .filter(e => new Date(e.date) >= new Date(today.getFullYear(), today.getMonth(), today.getDate()))
+      .filter(e => new Date(e.date) >= startOfToday)
       .sort((a, b) => new Date(a.date) - new Date(b.date));
     let html = '';
     upcoming.forEach(e => {
