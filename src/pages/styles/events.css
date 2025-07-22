@@ -5,7 +5,7 @@
   background: #fff;
   padding: 1rem;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 .calendar-header{
@@ -85,13 +85,13 @@
 }
 
 .past-day {
-  background: #f0f0f0;
+  background: #eee;
   color: #999;
 }
 
 .today {
-  background: var(--gold);
-  color: var(--dark);
+  background: var(--burnt);
+  color: #000;
 }
 
 .events-list {
@@ -113,46 +113,6 @@
 }
 
 .event-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-}
-
-.tasks-list {
-  margin-top: 1rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: .5rem;
-}
-
-.task-item {
-  background: linear-gradient(#e0f7fa, #b2ebf2);
-  color: #000;
-  padding: .5rem;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  cursor: grab;
-  user-select: none;
-  font-size: .9rem;
-  transition: transform .2s, box-shadow .2s;
-}
-
-.task-item:active {
-  cursor: grabbing;
-}
-
-.day-cell .task {
-  background: linear-gradient(#e8f5e9, #c8e6c9);
-  color: #000;
-  padding: 2px 4px;
-  border-radius: 3px;
-  margin-bottom: .25rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  font-size: .8rem;
-  cursor: pointer;
-  transition: transform .2s, box-shadow .2s;
-}
-
-.day-cell .task:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
