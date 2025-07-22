@@ -38,3 +38,12 @@ Launch the experimental drag-and-drop scrum board:
 npm run scrum
 ```
 The board supports drag-and-drop task management and a checkbox to mark tasks as minor.
+
+## Deployment
+
+Build the site and publish it to GitHub Pages:
+
+```bash
+npm run deploy
+```
+The workflow in `.github/workflows/deploy.yml` runs this on every push to `main`.
