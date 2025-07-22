@@ -38,3 +38,16 @@ Launch the experimental drag-and-drop scrum board:
 npm run scrum
 ```
 The board supports drag-and-drop task management and a checkbox to mark tasks as minor.
+
+## Deployment
+
+Build the site and publish it to GitHub Pages:
+
+```bash
+npm run deploy
+```
+The workflow in `.github/workflows/deploy.yml` runs this on every push to `main`.
+It builds using Vite with `base` set to `/campeggio/` and publishes the `dist`
+folder to the `gh-pages` branch so an `index.html` exists at the branch root.
+The build also includes a `404.html` page so GitHub Pages displays a friendly
+message when a URL doesn't match any file.
