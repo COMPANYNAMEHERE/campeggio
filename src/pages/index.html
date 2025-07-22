@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>KJ's Campfire</title>
+  <script>
+    const stored = localStorage.getItem('site-lang');
+    const browser = (navigator.language || 'en').slice(0, 2).toLowerCase();
+    const lang = ['en', 'it', 'nl'].includes(stored)
+                ? stored
+                : (['en', 'it', 'nl'].includes(browser) ? browser : 'en');
+    let base = window.location.pathname.split('/pages')[0];
+    base = base.replace(/\/$/, '').replace(/\/index\.html$/, '');
+    window.location.replace(`${base}/pages/${lang}/`);
+  </script>
+</head>
+<body>
+  <noscript>
+    <a href="en/">English</a> |
+    <a href="it/">Italiano</a> |
+    <a href="nl/">Nederlands</a>
+  </noscript>
+</body>
+</html>

@@ -38,3 +38,14 @@ Launch the experimental drag-and-drop scrum board:
 npm run scrum
 ```
 The board supports drag-and-drop task management and a checkbox to mark tasks as minor.
+
+### Local preview of GitHub Pages
+
+To verify the redirect logic before pushing to `main`, build the site and run a local preview server:
+
+```bash
+npm run build
+npm run preview
+```
+
+Open the printed URL and navigate to `/pages/` to check that you're redirected to the language stored in the browser (or English when none is saved).
