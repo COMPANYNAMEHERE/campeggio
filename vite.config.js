@@ -3,6 +3,7 @@ import { resolve } from 'path'
 
 export default defineConfig({
   root: 'src',
+  base: '/campeggio/',
   publicDir: resolve(__dirname, 'src/assets'),
   build: {
     outDir: resolve(__dirname, 'dist'),
@@ -22,6 +23,7 @@ export default defineConfig({
         nlAbout: resolve(__dirname, 'src/pages/nl/about.html'),
         nlContact: resolve(__dirname, 'src/pages/nl/contact.html'),
         nlEvents: resolve(__dirname, 'src/pages/nl/events.html'),
+        notFound: resolve(__dirname, 'src/404.html'),
       }
     }
   }
