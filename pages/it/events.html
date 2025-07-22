@@ -4,19 +4,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Prossimi Eventi | KJ's Camping</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
+  <link rel="stylesheet" href="../styles/main.css">
   <link rel="stylesheet" href="../styles/events.css">
 </head>
 <body>
   <!-- Intestazione dinamica -->
   <div id="header-placeholder"></div>
-  <main id="page-content" class="fade-container">
+  <main id="page-content" class="container fade-container">
+    <div id="calendar" class="calendar-container"></div>
     <h1 data-key="upcomingEvents">Prossimi Eventi</h1>
-    <div id="calendar"></div>
+    <section id="events-list" class="events-list"></section>
+    <div id="event-modal" class="modal hidden">
+      <div class="modal-content">
+        <button class="close-button">&times;</button>
+        <h2 id="modal-title"></h2>
+        <p id="modal-date"></p>
+        <p id="modal-desc"></p>
+      </div>
+    </div>
   </main>
   <!-- Footer dinamico -->
   <div id="footer-placeholder"></div>
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
   <script type="module" src="../../scripts/events.js"></script>
   <script>
     // Carica header e footer quindi avvia header.js per la traduzione
