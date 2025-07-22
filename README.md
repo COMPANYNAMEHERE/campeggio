@@ -31,3 +31,9 @@ Run a quick check that all internal links resolve correctly:
 ```bash
 npm test
 ```
+
+Launch the experimental scrum board:
+
+```bash
+npm run scrum
+```

@@ -54,23 +54,25 @@
   </div>
 
   <script>
-    const fs = require('fs');
-    const path = require('path');
-    const dataFile = path.join(__dirname, 'scrumData.json');
+    let board = { todo: [], progress: [], done: [] };
 
     function loadData() {
-      try {
-        return JSON.parse(fs.readFileSync(dataFile, 'utf8'));
-      } catch (e) {
-        return { todo: [], progress: [], done: [] };
-      }
+      fetch('/data')
+        .then(r => r.json())
+        .then(data => {
+          board = data;
+          render();
+        })
+        .catch(render);
     }
 
-    function saveData(data) {
-      fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
+    function saveData() {
+      fetch('/data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(board, null, 2)
+      });
     }
-
-    let board = loadData();
 
     function render() {
       document.getElementById('todoList').innerHTML = '';
@@ -108,7 +110,7 @@
     function moveTask(from, to, index) {
       board[to].push(board[from][index]);
       board[from].splice(index, 1);
-      saveData(board);
+      saveData();
       render();
     }
 
@@ -118,11 +120,11 @@
       if (!task) return;
       board.todo.push(task);
       input.value = '';
-      saveData(board);
+      saveData();
       render();
     }
 
-    render();
+    loadData();
   </script>
 </body>
 </html>
