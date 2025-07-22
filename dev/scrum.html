@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Dev Scrum Board</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .board {
+      display: flex;
+      gap: 20px;
+    }
+    .column {
+      flex: 1;
+      border: 1px solid #ccc;
+      padding: 10px;
+      min-height: 200px;
+    }
+    .column h2 {
+      text-align: center;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin: 5px 0;
+      padding: 5px;
+      background: #f0f0f0;
+    }
+    button {
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Scrum Board</h1>
+  <div class="board">
+    <div class="column" id="todoColumn">
+      <h2>To Do</h2>
+      <input id="newTask" placeholder="New task">
+      <button onclick="addTask()">Add</button>
+      <ul id="todoList"></ul>
+    </div>
+    <div class="column" id="progressColumn">
+      <h2>In Progress</h2>
+      <ul id="progressList"></ul>
+    </div>
+    <div class="column" id="doneColumn">
+      <h2>Done</h2>
+      <ul id="doneList"></ul>
+    </div>
+  </div>
+
+  <script>
+    const fs = require('fs');
+    const path = require('path');
+    const dataFile = path.join(__dirname, 'scrumData.json');
+
+    function loadData() {
+      try {
+        return JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+      } catch (e) {
+        return { todo: [], progress: [], done: [] };
+      }
+    }
+
+    function saveData(data) {
+      fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
+    }
+
+    let board = loadData();
+
+    function render() {
+      document.getElementById('todoList').innerHTML = '';
+      document.getElementById('progressList').innerHTML = '';
+      document.getElementById('doneList').innerHTML = '';
+
+      board.todo.forEach((task, idx) => {
+        const li = document.createElement('li');
+        li.textContent = task;
+        li.appendChild(createButton('Start', () => moveTask('todo', 'progress', idx)));
+        document.getElementById('todoList').appendChild(li);
+      });
+
+      board.progress.forEach((task, idx) => {
+        const li = document.createElement('li');
+        li.textContent = task;
+        li.appendChild(createButton('Done', () => moveTask('progress', 'done', idx)));
+        document.getElementById('progressList').appendChild(li);
+      });
+
+      board.done.forEach(task => {
+        const li = document.createElement('li');
+        li.textContent = task;
+        document.getElementById('doneList').appendChild(li);
+      });
+    }
+
+    function createButton(label, onClick) {
+      const btn = document.createElement('button');
+      btn.textContent = label;
+      btn.addEventListener('click', onClick);
+      return btn;
+    }
+
+    function moveTask(from, to, index) {
+      board[to].push(board[from][index]);
+      board[from].splice(index, 1);
+      saveData(board);
+      render();
+    }
+
+    function addTask() {
+      const input = document.getElementById('newTask');
+      const task = input.value.trim();
+      if (!task) return;
+      board.todo.push(task);
+      input.value = '';
+      saveData(board);
+      render();
+    }
+
+    render();
+  </script>
+</body>
+</html>

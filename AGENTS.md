@@ -13,6 +13,8 @@ These instructions apply to the entire project repository and describe how Codex
 - Shared components are in `src/pages/components` and assets in `src/assets`.
 - Test scripts reside in `test/`.
 - Do **not** commit files in `node_modules/` or `dist/`.
+- Ignore the `dev/` directory; it contains experimental utilities unrelated to
+  the production site.
 
 ## Testing
 - Run `npm install` whenever `package.json` or `package-lock.json` changes.
