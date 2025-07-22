@@ -23,6 +23,7 @@ export default defineConfig({
         nlAbout: resolve(__dirname, 'src/pages/nl/about.html'),
         nlContact: resolve(__dirname, 'src/pages/nl/contact.html'),
         nlEvents: resolve(__dirname, 'src/pages/nl/events.html'),
+        notFound: resolve(__dirname, 'src/404.html'),
       }
     }
   }
