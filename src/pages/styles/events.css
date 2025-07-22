@@ -43,6 +43,7 @@
   background: inherit;               /* remove white fill */
   border: 1px solid rgba(200,200,200,.25); /* soft grey outline for each day */
   color: #000;                       /* ensure text visibility */
+  width: calc(100% / 7);             /* ensure 7 columns */
 }
 
 .calendar-table td{
