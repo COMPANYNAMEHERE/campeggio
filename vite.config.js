@@ -3,6 +3,7 @@ import { resolve } from 'path'
 
 export default defineConfig({
   root: 'src',
+  base: '/campeggio/',
   publicDir: resolve(__dirname, 'src/assets'),
   build: {
     outDir: resolve(__dirname, 'dist'),

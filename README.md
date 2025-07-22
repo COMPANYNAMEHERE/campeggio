@@ -47,3 +47,5 @@ Build the site and publish it to GitHub Pages:
 npm run deploy
 ```
 The workflow in `.github/workflows/deploy.yml` runs this on every push to `main`.
+It builds using Vite with `base` set to `/campeggio/` and publishes the `dist`
+folder to the `gh-pages` branch so an `index.html` exists at the branch root.
