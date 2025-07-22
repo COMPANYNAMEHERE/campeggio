@@ -84,13 +84,13 @@
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
-.past-day {
+.calendar-grid .day-cell.past-day {
   background: #eee;
   color: #999;
 }
 
-.today {
-  background: var(--burnt);
+.calendar-grid .day-cell.today {
+  background: var(--gold, #f2b134);
   color: #000;
 }
 
