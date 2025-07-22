@@ -1,7 +1,11 @@
-/* ========= React Calendar overrides ========= */
-.calendar-container{
+/* ========= Simple Calendar Styles ========= */
+.calendar-container {
   width: min(90vw, 1100px);
-  margin: 3rem auto;
+  margin: 3rem auto 4rem;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 .calendar-header{
@@ -14,6 +18,7 @@
 .month-year{
   font-size: 2rem;
   font-weight: 600;
+  color: #000;
 }
 
 .nav-button{
@@ -26,31 +31,33 @@
   cursor: pointer;
 }
 
-#page-content .calendar-table{
-  width: 100%;
-  table-layout: fixed;
+#page-content .calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
   border-collapse: collapse;
-  background: var(--background, #fff);                 /* inherit site background */
+  border: 1px solid rgba(200,200,200,.25);
 }
 
-#page-content .calendar-table th,
-#page-content .calendar-table td{
+#page-content .day-name,
+#page-content .day-cell {
   text-align: center;
-  background: inherit;               /* remove white fill */
-  border: 1px solid rgba(200,200,200,.25); /* soft grey outline for each day */
+  background: inherit;
+  border: 1px solid rgba(200,200,200,.25);
+  color: #000;
 }
 
-.calendar-table td{
-  vertical-align: top;
-  height: 120px;
+.day-name {
+  font-weight: 700;
+  padding: .25rem 0;
+}
+
+.day-cell {
+  min-height: 120px;
   padding: .25rem;
-}
-
-.calendar-cell{
   display: flex;
   flex-direction: column;
-  height: 100%;
 }
+
 
 .date-number{
   font-weight: 700;
@@ -60,11 +67,87 @@
 .event{
   font-size: .8rem;
   margin-bottom: .25rem;
-  background: rgba(242,177,52,.15);
+  background: linear-gradient(#fff, #f5f5f5);
   padding: 2px 4px;
   border-radius: 3px;
+  color: #000;
   cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: transform .2s, box-shadow .2s;
 }
+
+.event:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.past-day {
+  background: #eee;
+  color: #999;
+}
+
+.today {
+  background: var(--burnt);
+  color: #000;
+}
+
+.events-list {
+  margin-top: 1rem;
+}
+
+.events-list article + article {
+  margin-top: 1rem;
+}
+
+.event-item {
+  background: linear-gradient(#fff, #f5f5f5);
+  color: #000;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: transform .2s, box-shadow .2s;
+  cursor: pointer;
+}
+
+.event-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* ========= Modal Styles ========= */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  position: relative;
+  background: #fff;
+  color: #000;
+  padding: 1.5rem;
+  border-radius: 8px;
+  width: min(90vw, 500px);
+}
+
+.close-button {
+  position: absolute;
+  top: .5rem;
+  right: .75rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
