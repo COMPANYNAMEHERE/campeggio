@@ -1,5 +1,14 @@
 {
   "todo": [],
   "progress": [],
-  "done": []
+  "done": [
+    {
+      "text": "test",
+      "minor": false
+    },
+    {
+      "text": "test",
+      "minor": true
+    }
+  ]
 }
