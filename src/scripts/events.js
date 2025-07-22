@@ -95,8 +95,15 @@ document.addEventListener('DOMContentLoaded', () => {
       html += `<div class="day-name">${d.toLocaleDateString(lang, { weekday: 'short' })}</div>`;
     }
 
+    const prevMonthDays = new Date(year, month, 0).getDate();
     for (let i = 0; i < startIndex; i++) {
-      html += '<div class="day-cell"></div>';
+      const dayNum = prevMonthDays - startIndex + i + 1;
+      const cellDate = new Date(year, month - 1, dayNum);
+      let classes = 'day-cell';
+      if (cellDate < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+        classes += ' past-day';
+      }
+      html += `<div class="${classes}"><span class="date-number">${dayNum}</span></div>`;
     }
 
     let day = 1;

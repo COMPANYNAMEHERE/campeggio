@@ -90,7 +90,7 @@
 }
 
 .today {
-  background: var(--burnt);
+  background: var(--gold, #f2b134);
   color: #000;
 }
 
