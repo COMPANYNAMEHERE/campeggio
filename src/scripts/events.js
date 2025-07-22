@@ -1,6 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('calendar');
   if (!container) return;
+  const modal = document.getElementById('event-modal');
+  const modalTitle = document.getElementById('modal-title');
+  const modalDate = document.getElementById('modal-date');
+  const modalDesc = document.getElementById('modal-desc');
+  const closeBtn = document.querySelector('.close-button');
 
   const langMatch = window.location.pathname.match(/\/(en|it|nl)(?=\/|$)/);
   const lang = langMatch ? langMatch[1] : 'en';
@@ -53,6 +58,24 @@ document.addEventListener('DOMContentLoaded', () => {
   current.setDate(1);
   const today = new Date();
 
+  function openModal(info) {
+    if (!modal) return;
+    const d = new Date(info.date);
+    modalTitle.textContent = info.title;
+    modalDate.textContent = d.toLocaleDateString(lang, { day: 'numeric', month: 'long', year: 'numeric' });
+    modalDesc.textContent = info.desc;
+    modal.classList.remove('hidden');
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+  }
+  if (modal) {
+    modal.addEventListener('click', ev => {
+      if (ev.target === modal) modal.classList.add('hidden');
+    });
+  }
+
   function render() {
     const year = current.getFullYear();
     const month = current.getMonth();
@@ -94,13 +117,23 @@ document.addEventListener('DOMContentLoaded', () => {
       const dayEvents = events.filter(e => e.date === iso);
       let cellHtml = `<span class="date-number">${day}</span>`;
       dayEvents.forEach(e => {
-        cellHtml += `<div class="event">${e.titles[lang]}</div>`;
+        cellHtml += `<div class="event" data-date="${e.date}" data-title="${e.titles[lang]}" data-desc="${e.descriptions[lang]}">${e.titles[lang]}</div>`;
       });
       html += `<div class="${classes}">${cellHtml}</div>`;
       day++;
     }
     html += '</div>';
     container.innerHTML = html;
+
+    container.querySelectorAll('.event').forEach(el => {
+      el.addEventListener('click', () => {
+        openModal({
+          date: el.dataset.date,
+          title: el.dataset.title,
+          desc: el.dataset.desc
+        });
+      });
+    });
 
     document.getElementById('prev-month').addEventListener('click', () => {
       current.setMonth(current.getMonth() - 1);
@@ -121,9 +154,18 @@ document.addEventListener('DOMContentLoaded', () => {
     upcoming.forEach(e => {
       const d = new Date(e.date);
       const dateStr = d.toLocaleDateString(lang, { day: 'numeric', month: 'long', year: 'numeric' });
-      html += `<article><h2>${dateStr} – ${e.titles[lang]}</h2><p>${e.descriptions[lang]}</p></article>`;
+      html += `<article class="event-item" data-date="${e.date}" data-title="${e.titles[lang]}" data-desc="${e.descriptions[lang]}"><h2>${dateStr} – ${e.titles[lang]}</h2><p>${e.descriptions[lang]}</p></article>`;
     });
     listEl.innerHTML = html;
+    listEl.querySelectorAll('.event-item').forEach(el => {
+      el.addEventListener('click', () => {
+        openModal({
+          date: el.dataset.date,
+          title: el.dataset.title,
+          desc: el.dataset.desc
+        });
+      });
+    });
   }
 
   render();
