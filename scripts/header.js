@@ -55,7 +55,9 @@
     const newLang = e.target.value;
     localStorage.setItem('site-lang', newLang);
     window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: newLang } }));
-    const suffix = window.location.pathname.replace(/^\/pages\/(en|nl|it)/, '');
+    const suffix = window.location.pathname
+      .slice(basePath.length)
+      .replace(/^\/pages\/(en|nl|it)/, '');
     window.location.href = `${basePath}/pages/${newLang}${suffix}`;
   });
 })();
